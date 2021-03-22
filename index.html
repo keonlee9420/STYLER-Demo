@@ -1,0 +1,257 @@
+<html>	
+  <head>	
+    <meta charset="UTF-8">	
+    <title>STYLER: Style Modeling with Rapidity and Robustness via Speech Decomposition for Expressive and Controllable Neural Text to Speech</title>	
+    <link rel="stylesheet" type="text/css" href="./src/stylesheet.css"/>	
+    <link rel="shortcut icon" href="./src/styler.png">
+  </head>	
+  <body>	
+    <div>	
+      <article>	
+        <header>	
+          <h1>STYLER: Style Modeling with Rapidity and Robustness via Speech Decomposition for Expressive and Controllable Neural Text to Speech</h1>	
+        </header>	
+      </article>	
+      
+      <p><b>Paper: </b><a href="https://arxiv.org/abs/2103.09474" target="_blank">arXiv:2103.09474</a></p>	
+      <p><b>Authors: </b>Keon Lee, Kyumin Park, Daeyoung Kim.</p>	
+
+      <p><b>Abstract:</b>	
+        Previous works on expressive text-to-speech (TTS) have a limitation on robustness and speed when training and inferring. 
+Such drawbacks mostly come from autoregressive decoding, which makes the succeeding step vulnerable to preceding error. 
+To overcome this weakness, we propose <it>STYLER</it>, a novel expressive text-to-speech model with parallelized architecture. 
+Expelling autoregressive decoding and introducing speech decomposition for encoding enables speech synthesis more robust even with high style transfer performance.
+Moreover, our novel noise modeling approach from audio using domain adversarial training and Residual Decoding enabled style transfer without transferring noise. 
+Our experiments prove the naturalness and expressiveness of our model from comparison with other parallel TTS models. 
+Together we investigate our model's robustness and speed by comparison with the expressive TTS model with autoregressive decoding.
+ </p>	
+      <h2>Style Factor Decomposition</h2>	
+      <p>Try various style factor combinations. The model output (middle) is synthesized speech from single noisy audio (left) with given text.
+        The orange line represents pitch contour, and the purple line represents energy.
+        'T', 'D', 'P', 'E', 'S', and 'N' refer to the text, duration, pitch, energy, speaker, and noise encoding.
+        A selected combination of these encodings is fed into the model.
+        Note that the clean audio (right) is shown for the comparison, and it is not given to the model during inference.
+        SNR stands for <a href="https://en.wikipedia.org/wiki/Signal-to-noise_ratio" target="_blank">signal-to-noise ratio</a>, where a ratio higher than 1:1 (greater than 0 dB) indicates more signal than noise.
+      </p>
+        <table>
+          <thead>
+          <tr>	
+            <th>Noisy Audio (Ground-truth)</th><th>STYLER</th><th>Clean Audio (Ground-truth)</th>
+          </tr>	
+        </thead>	
+         <tbody>
+           <tr><td colspan="4"><span>1: A female speaker with SNR 25, <i>"All businesses continue to trade."</i></span></td>
+           </tr>
+           <tr>
+              <td calss="mel"><img id="F_noisy_mel" src="./src/F_p233_045_mic1/ref_noisy.png" alt="mel" width="300" height="200"/></td>			
+              <td calss="mel"><img id="F_output_mel" src="./src/F_p233_045_mic1/inspect1.png" alt="mel" width="300" height="200"/></td>		
+              <td calss="mel"><img id="F_clean_mel" src="./src/F_p233_045_mic1/ref_clean.png" alt="mel" width="300" height="200"/></td>		
+            </tr>	
+           <th><th/>Combination: 
+             <select name="cars" id="select" onchange="selectComb(this.value)">
+               <option value="F1">T+D+P+E+S+N</option>
+               <option value="F2">T+D+P+E+N</option>
+               <option value="F3">T+D+P+N</option>
+               <option value="F4">T+D+N</option>
+               <option value="F5">T+N</option>
+               <option value="F6">T</option>
+               <option value="F7">T+D</option>
+               <option value="F8">T+D+P</option>
+               <option value="F9">T+D+P+E</option>
+               <option value="F10">T+D+P+E+S</option>
+             </select>
+             </th>
+           <tr>
+             <td><audio id="F_noisy_wav" controls=""><source id="F_noisy_wav_source" src="./src/F_p233_045_mic1/ref_noisy.wav" type="audio/wav"></audio></td>
+             <td><audio id="F_output_wav" controls=""><source id="F_output_wav_source" src="./src/F_p233_045_mic1/inspect1.wav" type="audio/wav"></audio></td>
+             <td><audio id="F_clean_wav" controls=""><source id="F_clean_wav_source" src="./src/F_p233_045_mic1/ref_clean.wav" type="audio/wav"></audio></td>
+           </tr>
+
+           <tr><td colspan="4"><span>2: A male speaker with SNR 6, <i>"The party has never fully recovered."</i></span></td>
+           </tr>
+           <tr>
+              <td calss="mel"><img id="M_noisy_mel" src="./src/M_p311_094_mic1/ref_noisy.png" alt="mel" width="300" height="200"/></td>			
+              <td calss="mel"><img id="M_output_mel" src="./src/M_p311_094_mic1/inspect1.png" alt="mel" width="300" height="200"/></td>		
+              <td calss="mel"><img id="M_clean_mel" src="./src/M_p311_094_mic1/ref_clean.png" alt="mel" width="300" height="200"/></td>		
+            </tr>	
+           <th><th/>Combination: 
+             <select name="cars" id="select" onchange="selectComb(this.value)">
+               <option value="M1">T+D+P+E+S+N</option>
+               <option value="M2">T+D+P+E+N</option>
+               <option value="M3">T+D+P+N</option>
+               <option value="M4">T+D+N</option>
+               <option value="M5">T+N</option>
+               <option value="M6">T</option>
+               <option value="M7">T+D</option>
+               <option value="M8">T+D+P</option>
+               <option value="M9">T+D+P+E</option>
+               <option value="M10">T+D+P+E+S</option>
+             </select>
+             </th>
+           <tr>
+             <td><audio id="M_noisy_wav" controls=""><source id="M_noisy_wav_source" src="./src/M_p311_094_mic1/ref_noisy.wav" type="audio/wav"></audio></td>
+             <td><audio id="M_output_wav" controls=""><source id="M_output_wav_source" src="./src/M_p311_094_mic1/inspect1.wav" type="audio/wav"></audio></td>
+             <td><audio id="M_clean_wav" controls=""><source id="M_clean_wav_source" src="./src/M_p311_094_mic1/ref_clean.wav" type="audio/wav"></audio></td>
+           </tr>
+           </tbody>
+        </table>
+      
+      <h2>Parallel Style Transfer</h2>	
+      <p>Samples from <u>seen speaker</u> with unseen corpus.</p>
+      <table>	
+        <thead>	
+          <tr>	
+            <th>Input Audio (Ground-truth)</th><th>Mellotron</th><th>FastSpeech2</th><th>STYLER</th>	
+          </tr>	
+        </thead>	
+        <tbody>	
+          <tr><td colspan="4"><span>1: Female1, <i>"input text"</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+          </tr>	
+          <tr><td colspan="4"><span>2: Female2, <i>"input text"</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+          </tr>	
+          <tr><td colspan="4"><span>3: Male1, <i>"input text"</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+          </tr>	
+          <tr><td colspan="4"><span>4: Male2, <i>"input text"</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+          </tr>	
+        </tbody>	
+      </table>	
+      <p>Samples from <u>unseen speaker</u> with unseen corpus.</p>
+      <table>	
+        <thead>	
+          <tr>	
+            <th>Input Audio (Ground-truth)</th><th>FastSpeech2</th><th>Mellotron</th><th>STYLER</th>	
+          </tr>	
+        </thead>	
+        <tbody>	
+          <tr><td colspan="4"><span>1: Female3, <i>"input text"</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+          </tr>	
+          <tr><td colspan="4"><span>2: Female3, <i>"input text"</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+          </tr>	
+          <tr><td colspan="4"><span>3: Male3, <i>"input text"</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+          </tr>	
+          <tr><td colspan="4"><span>4: Male3, <i>"input text"</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+          </tr>	
+        </tbody>	
+      </table>	
+
+      <h2>Non-Parallel Style Transfer</h2>	
+      <p>Samples from <u>seen speaker</u> with unseen corpus.</p>
+      <table>	
+        <thead>	
+          <tr>	
+            <th>Input Audio (Ground-truth)</th><th>FastSpeech2</th><th>Mellotron</th><th>STYLER</th>	
+          </tr>	
+        </thead>	
+        <tbody>	
+          <tr><td colspan="4"><span>1: Female4, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+          </tr>	
+          <tr><td colspan="4"><span>2: Female5, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+          </tr>	
+          <tr><td colspan="4"><span>3: Male4, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+          </tr>	
+          <tr><td colspan="4"><span>4: Male5, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+          </tr>	
+        </tbody>	
+      </table>	
+      <p>Samples from <u>unseen speaker</u> with unseen corpus.</p>
+      <table>	
+        <thead>	
+          <tr>	
+            <th>Input Audio (Ground-truth)</th><th>FastSpeech2</th><th>Mellotron</th><th>STYLER</th>	
+          </tr>	
+        </thead>	
+        <tbody>	
+          <tr><td colspan="4"><span>1: Female6, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+          </tr>	
+          <tr><td colspan="4"><span>2: Female6, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+          </tr>	
+          <tr><td colspan="4"><span>3: Male6, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+          </tr>	
+          <tr><td colspan="4"><span>4: Male6, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+          </tr>	
+        </tbody>	
+      </table>
+    </div>	
+  <script type="text/javascript" src="./src/script.js"></script>
+  </body>	
+</html>	
