@@ -25,7 +25,7 @@ Moreover, our novel noise modeling approach from audio using domain adversarial 
 Our experiments prove the naturalness and expressiveness of our model from comparison with other parallel TTS models. 
 Together we investigate our model's robustness and speed by comparison with the expressive TTS model with autoregressive decoding.
  </p>	
-      <h2>Style Factor Decomposition</h2>	
+      <h2>Style Factor Modeling</h2>	
       <p>Try various style factor combinations. The model output (middle) is synthesized speech from single noisy audio (left) with given text.
         The orange line represents pitch contour, and the purple line represents energy.
         'T', 'D', 'P', 'E', 'S', and 'N' refer to the text, duration, pitch, energy, speaker, and noise encoding.
@@ -33,14 +33,14 @@ Together we investigate our model's robustness and speed by comparison with the 
         Note that the clean audio (right) is shown for the comparison, and it is not given to the model during inference.
         SNR stands for <a href="https://en.wikipedia.org/wiki/Signal-to-noise_ratio" target="_blank">signal-to-noise ratio</a>, where a ratio higher than 1:1 (greater than 0 dB) indicates more signal than noise.
       </p>
-        <table>
+         <table class="fixed">
           <thead>
           <tr>	
             <th>Noisy Audio (Ground-truth)</th><th>STYLER</th><th>Clean Audio (Ground-truth)</th>
           </tr>	
         </thead>	
          <tbody>
-           <tr><td colspan="4"><span>1: A female speaker with SNR 25, <i>"All businesses continue to trade."</i></span></td>
+           <tr class="info"><td colspan="4"><span>1: Female speaker with SNR 25 (p233_045), <i>"All businesses continue to trade."</i></span></td>
            </tr>
            <tr>
               <td calss="mel"><img id="F_noisy_mel" src="./src/F_p233_045_mic1/ref_noisy.png" alt="mel" width="300" height="200"/></td>			
@@ -67,7 +67,7 @@ Together we investigate our model's robustness and speed by comparison with the 
              <td><audio id="F_clean_wav" controls=""><source id="F_clean_wav_source" src="./src/F_p233_045_mic1/ref_clean.wav" type="audio/wav"></audio></td>
            </tr>
 
-           <tr><td colspan="4"><span>2: A male speaker with SNR 6, <i>"The party has never fully recovered."</i></span></td>
+           <tr class="info"><td colspan="4"><span>2: Male speaker with SNR 6 (p311_094), <i>"The party has never fully recovered."</i></span></td>
            </tr>
            <tr>
               <td calss="mel"><img id="M_noisy_mel" src="./src/M_p311_094_mic1/ref_noisy.png" alt="mel" width="300" height="200"/></td>			
@@ -96,158 +96,177 @@ Together we investigate our model's robustness and speed by comparison with the 
            </tbody>
         </table>
       
-      <h2>Parallel Style Transfer</h2>	
-      <p>Samples from <u>seen speaker</u> with unseen corpus.</p>
-      <table>	
+      <h2>Style Transfer</h2>	
+      <p>In style transfer tasks, only clean audio is provided for each model, and the noise encoding is ignored in STYLER.
+        For the parallel transfer, the audio content is the same with the input text.
+        For the non-parallel transfer, the audio content is not matched with the input text.
+      </p>
+      <h3>Parallel samples from <u>seen speaker</u>.</h3>
+       <table class="fixed">	
         <thead>	
           <tr>	
-            <th>Input Audio (Ground-truth)</th><th>Mellotron</th><th>FastSpeech2</th><th>STYLER</th>	
+            <th>Input Audio (Ground-truth)</th><th>STYLER</th><th>FastSpeech2</th><th>Mellotron</th>	
           </tr>	
         </thead>	
         <tbody>	
-          <tr><td colspan="4"><span>1: Female1, <i>"input text"</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>1: Female1 (p234_024), <i>"This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue."</i></span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p234_024_s/p234_024_p_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p234_024_s/p234_024_p_styler.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p234_024_s/p234_024_p_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p234_024_s/p234_024_p_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
-          <tr><td colspan="4"><span>2: Female2, <i>"input text"</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>2: Female2 (p248_130), <i>"I had relied on him."</i></span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p248_130_s/p248_130_p_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p248_130_s/p248_130_p_styler.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p248_130_s/p248_130_p_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p248_130_s/p248_130_p_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
-          <tr><td colspan="4"><span>3: Male1, <i>"input text"</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>3: Male1 (p226_021), <i>"The difference in the rainbow depends considerably upon the size of the drops, and the width of the colored band increases as the size of the drops increases."</i></span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p226_021_s/p226_021_p_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p226_021_s/p226_021_p_styler.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p226_021_s/p226_021_p_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p226_021_s/p226_021_p_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
-          <tr><td colspan="4"><span>4: Male2, <i>"input text"</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>4: Male2 (p247_234), <i>"Murray financial has fallen at the first hurdle."</i></span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p247_234_s/p247_234_p_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p247_234_s/p247_234_p_styler.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p247_234_s/p247_234_p_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p247_234_s/p247_234_p_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
         </tbody>	
       </table>	
-      <p>Samples from <u>unseen speaker</u> with unseen corpus.</p>
-      <table>	
+      <h3>Parallel samples from <u>unseen speaker</u>.</h3>
+       <table class="fixed">	
         <thead>	
           <tr>	
-            <th>Input Audio (Ground-truth)</th><th>FastSpeech2</th><th>Mellotron</th><th>STYLER</th>	
+            <th>Input Audio (Ground-truth)</th><th>STYLER</th><th>FastSpeech2</th><th>Mellotron</th>
           </tr>	
         </thead>	
         <tbody>	
-          <tr><td colspan="4"><span>1: Female3, <i>"input text"</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>1: Female3 (p239_148), <i>"People have been placed in a state of alarm."</i></span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/p_p239_148_us/p239_148_p_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p239_148_us/p239_148_p_styler.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/p_p239_148_us/p239_148_p_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p239_148_us/p239_148_p_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
-          <tr><td colspan="4"><span>2: Female3, <i>"input text"</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>2: Female3 (p239_189), <i>"Millions of british jobs depend on europe."</i></span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/p_p239_189_us/p239_189_p_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p239_189_us/p239_189_p_styler.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/p_p239_189_us/p239_189_p_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p239_189_us/p239_189_p_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
-          <tr><td colspan="4"><span>3: Male3, <i>"input text"</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>3: Male3 (p285_085), <i>"Yesterday, he continued to keep a low profile."</i></span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/p_p285_085_us/p285_085_p_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p285_085_us/p285_085_p_styler.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/p_p285_085_us/p285_085_p_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p285_085_us/p285_085_p_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
-          <tr><td colspan="4"><span>4: Male3, <i>"input text"</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>4: Male3 (p285_255), <i>"It will now relate to all public bodies in scotland."</i></span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/p_p285_255_us/p285_255_p_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p285_255_us/p285_255_p_styler.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/p_p285_255_us/p285_255_p_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/p_p285_255_us/p285_255_p_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
         </tbody>	
       </table>	
 
-      <h2>Non-Parallel Style Transfer</h2>	
-      <p>Samples from <u>seen speaker</u> with unseen corpus.</p>
-      <table>	
+      <h3>Non-parallel samples from <u>seen speaker</u>.</h3>
+       <table class="fixed">	
         <thead>	
           <tr>	
-            <th>Input Audio (Ground-truth)</th><th>FastSpeech2</th><th>Mellotron</th><th>STYLER</th>	
+            <th>Input Audio (Ground-truth)</th><th>STYLER</th><th>FastSpeech2</th><th>Mellotron</th>
           </tr>	
         </thead>	
         <tbody>	
-          <tr><td colspan="4"><span>1: Female4, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>1: Female1 (p234_024), <i>"This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue."</i> (audio content), <br><i>"Murray financial has fallen at the first hurdle." </i> (target text)</span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p234_024_s/p234_024_np_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p234_024_s/p234_024_np_styler.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p234_024_s/p234_024_np_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p234_024_s/p234_024_np_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
-          <tr><td colspan="4"><span>2: Female5, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>2: Female2 (p248_130), <i>"I had relied on him."</i> (audio content), <br><i>"Drugs are used a lot at the fishing, not just cannabis." </i> (target text)</span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p248_130_s/p248_130_np_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p248_130_s/p248_130_np_styler.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p248_130_s/p248_130_np_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p248_130_s/p248_130_np_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
-          <tr><td colspan="4"><span>3: Male4, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>3: Male1 (p226_021), <i>"The difference in the rainbow depends considerably upon the size of the drops, and the width of the colored band increases as the size of the drops increases."</i> (audio content), <br><i>"She can scoop these things into three red bags, and we will go meet her wednesday at the train station." </i> (target text)</span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p226_021_s/p226_021_np_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p226_021_s/p226_021_np_styler.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p226_021_s/p226_021_np_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p226_021_s/p226_021_np_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
-          <tr><td colspan="4"><span>4: Male5, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>4: Male2 (p247_234), <i>"Murray financial has fallen at the first hurdle."</i> (audio content), <br><i>"We also need a small plastic snake and a big toy frog for the kids." </i> (target text)</span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p247_234_s/p247_234_np_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p247_234_s/p247_234_np_styler.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p247_234_s/p247_234_np_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p247_234_s/p247_234_np_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
         </tbody>	
       </table>	
-      <p>Samples from <u>unseen speaker</u> with unseen corpus.</p>
-      <table>	
+      <h3>Non-parallel samples from <u>unseen speaker</u>.</h3>
+       <table class="fixed">	
         <thead>	
           <tr>	
-            <th>Input Audio (Ground-truth)</th><th>FastSpeech2</th><th>Mellotron</th><th>STYLER</th>	
+            <th>Input Audio (Ground-truth)</th><th>STYLER</th><th>FastSpeech2</th><th>Mellotron</th>
           </tr>	
         </thead>	
         <tbody>	
-          <tr><td colspan="4"><span>1: Female6, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>1: Female4 (p323_229), <i>"That period was a struggle."</i> (audio content), <br><i>"Finding suitable replacements would not be easy." </i> (target text)</span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p323_229_us/p323_229_np_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p323_229_us/p323_229_np_styler.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p323_229_us/p323_229_np_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p323_229_us/p323_229_np_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
-          <tr><td colspan="4"><span>2: Female6, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>2: Female4 (p323_337), <i>"He wasn't really doing anything, so he wanted out."</i> (audio content), <br><i>"People have been placed in a state of alarm." </i> (target text)</span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p323_337_us/p323_337_np_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p323_337_us/p323_337_np_styler.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p323_337_us/p323_337_np_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p323_337_us/p323_337_np_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
-          <tr><td colspan="4"><span>3: Male6, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>3: Male4 (p279_258), <i>"Blair is very positive at european councils."</i> (audio content), <br><i>"The guidelines are expected to be finalised before next spring." </i> (target text)</span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p279_258_us/p279_258_np_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p279_258_us/p279_258_np_styler.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p279_258_us/p279_258_np_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p279_258_us/p279_258_np_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
-          <tr><td colspan="4"><span>4: Male6, <i>"input text"</i> (audio content), <i>"input text" (target text)</i></span></td></tr>	
+          
+          <tr class="info"><td colspan="4"><span>4: Male4 (p279_389), <i>"It will take place in july."</i> (audio content), <br><i>"Millions of british jobs depend on europe." </i> (target text)</span></td></tr>	
           <tr>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>	
-            <td><audio controls=""><source src=".wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p279_389_us/p279_389_np_ref.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p279_389_us/p279_389_np_styler.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/style_transfers/np_p279_389_us/p279_389_np_fastspeech2.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/style_transfers/np_p279_389_us/p279_389_np_mellotron.wav" type="audio/wav"></audio></td>	
           </tr>	
         </tbody>	
       </table>
