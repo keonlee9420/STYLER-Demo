@@ -1,7 +1,7 @@
 <html>	
   <head>	
     <meta charset="UTF-8">	
-    <title>STYLER: Style Modeling with Rapidity and Robustness via Speech Decomposition for Expressive and Controllable Neural Text to Speech</title>	
+    <title>STYLER: Style Factor Modeling with Rapidity and Robustness via Speech Decomposition for Expressive and Controllable Neural Text to Speech</title>	
     <link rel="stylesheet" type="text/css" href="./src/stylesheet.css"/>	
     <link rel="shortcut icon" href="./src/styler.png">
   </head>	
@@ -18,13 +18,13 @@
 
       <p><b>Abstract:</b>	
         Previous works on expressive text-to-speech (TTS) have a limitation on robustness and speed when training and inferring. 
-Such drawbacks mostly come from autoregressive decoding, which makes the succeeding step vulnerable to preceding error. 
-To overcome this weakness, we propose <it>STYLER</it>, a novel expressive text-to-speech model with parallelized architecture. 
-Expelling autoregressive decoding and introducing speech decomposition for encoding enables speech synthesis more robust even with high style transfer performance.
-Moreover, our novel noise modeling approach from audio using domain adversarial training and Residual Decoding enabled style transfer without transferring noise. 
-Our experiments prove the naturalness and expressiveness of our model from comparison with other parallel TTS models. 
-Together we investigate our model's robustness and speed by comparison with the expressive TTS model with autoregressive decoding.
- </p>	
+        Such drawbacks mostly come from autoregressive decoding, which makes the succeeding step vulnerable to preceding error. 
+        To overcome this weakness, we propose <it>STYLER</it>, a novel expressive text-to-speech model with parallelized architecture. 
+        Expelling autoregressive decoding and introducing speech decomposition for encoding enables speech synthesis more robust even with high style transfer performance.
+        Moreover, our novel noise modeling approach from audio using domain adversarial training and Residual Decoding enabled style transfer without transferring noise. 
+        Our experiments prove the naturalness and expressiveness of our model from comparison with other parallel TTS models. 
+        Together we investigate our model's robustness and speed by comparison with the expressive TTS model with autoregressive decoding.
+        </p>	
       <h2>Style Factor Modeling</h2>	
       <p>Try various style factor combinations. The model output (middle) is synthesized speech from single noisy audio (left) with given text.
         The orange line represents pitch contour, and the purple line represents energy.
@@ -302,6 +302,54 @@ Together we investigate our model's robustness and speed by comparison with the 
           </tr>	
         </tbody>	
       </table>
+
+      <h2>Robustness</h2>	
+      <h3>Repeated and Ignored Words</h3>
+      <table class="fixed">
+        <thead>	
+          <tr>	
+            <th>STYLER</th><th>Mellotron</th>
+          </tr>	
+        </thead>		
+        <tbody>	
+          <tr class="info"><td colspan="2"><span>1: p323_229, <i>"That period was a struggle."</i></span></td></tr>	
+          <tr>
+            <td><audio controls=""><source src="./src/robustness/repeated/p239_345_styler.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/robustness/repeated/p239_345_mellotron.wav" type="audio/wav"></audio></td>
+          </tr>
+          <tr class="info"><td colspan="2"><span>2: p248_130, <i>"Had had been had had had not had but had had and had."</i></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src="./src/robustness/repeated/p248_130_styler.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/robustness/repeated/p248_130_mellotron.wav" type="audio/wav"></audio></td>	
+          </tr>
+        </tbody>	
+      </table>
+
+      <h3>Style Transfer from Noisy Reference Audio</h3>
+      <table class="fixed">
+        <thead>	
+          <tr>	
+            <th>Noisy Audio (Ground-truth)</th><th>STYLER (Noisy Decoding)</th><th>STYLER (Clean Decoding)</th><th>Mellotron</th>
+          </tr>	
+        </thead>		
+        <tbody>	
+          <tr class="info"><td colspan="4"><span>1: Male seen speaker with SNR 23 (p237_274), <i>"One mp said he feared the job losses were only the beginning."</i> (audio content), <br><i>"The difference in the rainbow depends considerably upon the size of the drops, and the width of the colored band increases as the size of the drops increases." </i> (target text)</span></span></td></tr>	
+          <tr>	
+            <td><audio controls=""><source src="./src/robustness/noisy/p237_274_ref_SNR_23.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/robustness/noisy/p237_274_styler_noisy.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/robustness/noisy/p237_274_styler_clean.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/robustness/noisy/p237_274_mellotron.wav" type="audio/wav"></audio></td>	
+          </tr>
+          <tr class="info"><td colspan="4"><span>2: Female seen speaker with SNR 23 (p297_004), <i>"We also need a small plastic snake and a big toy frog for the kids."</i> (audio content), <br><i>"The next eight weeks are critical to us." </i> (target text)</span></td></tr>	
+          <tr>
+            <td><audio controls=""><source src="./src/robustness/noisy/p297_004_ref_SNR_23.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/robustness/noisy/p297_004_styler_noisy.wav" type="audio/wav"></audio></td>	
+            <td><audio controls=""><source src="./src/robustness/noisy/p297_004_styler_clean.wav" type="audio/wav"></audio></td>
+            <td><audio controls=""><source src="./src/robustness/noisy/p297_004_mellotron.wav" type="audio/wav"></audio></td>
+          </tr>
+        </tbody>	
+      </table>
+
     </div>	
   <script type="text/javascript" src="./src/script.js"></script>
   </body>	
