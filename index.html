@@ -9,7 +9,7 @@
     <div>	
       <article>	
         <header>	
-          <h1>STYLER: Style Modeling with Rapidity and Robustness via Speech Decomposition for Expressive and Controllable Neural Text to Speech</h1>	
+          <h1>STYLER: Style Factor Modeling with Rapidity and Robustness via Speech Decomposition for Expressive and Controllable Neural Text to Speech</h1>	
         </header>	
       </article>	
       
@@ -17,13 +17,14 @@
       <p><b>Authors: </b>Keon Lee, Kyumin Park, Daeyoung Kim.</p>	
 
       <p><b>Abstract:</b>	
-        Previous works on expressive text-to-speech (TTS) have a limitation on robustness and speed when training and inferring. 
-        Such drawbacks mostly come from autoregressive decoding, which makes the succeeding step vulnerable to preceding error. 
-        To overcome this weakness, we propose <it>STYLER</it>, a novel expressive text-to-speech model with parallelized architecture. 
-        Expelling autoregressive decoding and introducing speech decomposition for encoding enables speech synthesis more robust even with high style transfer performance.
-        Moreover, our novel noise modeling approach from audio using domain adversarial training and Residual Decoding enabled style transfer without transferring noise. 
-        Our experiments prove the naturalness and expressiveness of our model from comparison with other parallel TTS models. 
-        Together we investigate our model's robustness and speed by comparison with the expressive TTS model with autoregressive decoding.
+        Previous works on neural text-to-speech (TTS) have been tackled on limited speed in training and inference time, robustness for difficult synthesis conditions, expressiveness, and controllability. 
+        Although several approaches resolve some limitations, none of them has resolved all weaknesses at once. 
+        In this paper, we propose STYLER, an expressive and controllable text-to-speech model with robust speech synthesis and high speed. 
+        Excluding autoregressive decoding and introducing a novel audio-text aligning method called Mel Calibrator leads speech synthesis more robust on long, unseen data. 
+        Disentangled style factor modeling under supervision enlarges the controllability of synthesizing speech with fruitful expressivity. 
+        Moreover, our novel noise modeling pipeline using domain adversarial training and Residual Decoding enables noise-robust style transfer, decomposing the noise without any additional label. 
+        Our extensive and various experiments demonstrate STYLER's effectiveness in the aspects of speed, robustness, expressiveness, and controllability by comparison with existing neural TTS models and ablation studies. 
+        Synthesis samples of our model and experiment results are provided via our demo page. 
         </p>	
       <h2>Style Factor Modeling</h2>	
       <p>Try various style factor combinations. The model output (middle) is synthesized speech from single noisy audio (left) with given text.
@@ -43,9 +44,9 @@
            <tr class="info"><td colspan="4"><span>1: Female speaker with SNR 25 (p233_045), <i>"All businesses continue to trade."</i></span></td>
            </tr>
            <tr>
-              <td calss="mel"><img id="F_noisy_mel" src="./src/F_p233_045_mic1/ref_noisy.png" alt="mel" width="300" height="200"/></td>			
-              <td calss="mel"><img id="F_output_mel" src="./src/F_p233_045_mic1/inspect1.png" alt="mel" width="300" height="200"/></td>		
-              <td calss="mel"><img id="F_clean_mel" src="./src/F_p233_045_mic1/ref_clean.png" alt="mel" width="300" height="200"/></td>		
+              <td calss="mel"><img id="F_noisy_mel" src="./src/F_p233_045/ref_noisy.png" alt="mel" width="300" height="200"/></td>			
+              <td calss="mel"><img id="F_output_mel" src="./src/F_p233_045/inspect1.png" alt="mel" width="300" height="200"/></td>		
+              <td calss="mel"><img id="F_clean_mel" src="./src/F_p233_045/ref_clean.png" alt="mel" width="300" height="200"/></td>		
             </tr>	
            <th><th/>Combination: 
              <select name="cars" id="select" onchange="selectComb(this.value)">
@@ -62,17 +63,17 @@
              </select>
              </th>
            <tr>
-             <td><audio id="F_noisy_wav" controls=""><source id="F_noisy_wav_source" src="./src/F_p233_045_mic1/ref_noisy.wav" type="audio/wav"></audio></td>
-             <td><audio id="F_output_wav" controls=""><source id="F_output_wav_source" src="./src/F_p233_045_mic1/inspect1.wav" type="audio/wav"></audio></td>
-             <td><audio id="F_clean_wav" controls=""><source id="F_clean_wav_source" src="./src/F_p233_045_mic1/ref_clean.wav" type="audio/wav"></audio></td>
+             <td><audio id="F_noisy_wav" controls=""><source id="F_noisy_wav_source" src="./src/F_p233_045/ref_noisy.wav" type="audio/wav"></audio></td>
+             <td><audio id="F_output_wav" controls=""><source id="F_output_wav_source" src="./src/F_p233_045/inspect1.wav" type="audio/wav"></audio></td>
+             <td><audio id="F_clean_wav" controls=""><source id="F_clean_wav_source" src="./src/F_p233_045/ref_clean.wav" type="audio/wav"></audio></td>
            </tr>
 
            <tr class="info"><td colspan="4"><span>2: Male speaker with SNR 6 (p311_094), <i>"The party has never fully recovered."</i></span></td>
            </tr>
            <tr>
-              <td calss="mel"><img id="M_noisy_mel" src="./src/M_p311_094_mic1/ref_noisy.png" alt="mel" width="300" height="200"/></td>			
-              <td calss="mel"><img id="M_output_mel" src="./src/M_p311_094_mic1/inspect1.png" alt="mel" width="300" height="200"/></td>		
-              <td calss="mel"><img id="M_clean_mel" src="./src/M_p311_094_mic1/ref_clean.png" alt="mel" width="300" height="200"/></td>		
+              <td calss="mel"><img id="M_noisy_mel" src="./src/M_p311_094/ref_noisy.png" alt="mel" width="300" height="200"/></td>			
+              <td calss="mel"><img id="M_output_mel" src="./src/M_p311_094/inspect1.png" alt="mel" width="300" height="200"/></td>		
+              <td calss="mel"><img id="M_clean_mel" src="./src/M_p311_094/ref_clean.png" alt="mel" width="300" height="200"/></td>		
             </tr>	
            <th><th/>Combination: 
              <select name="cars" id="select" onchange="selectComb(this.value)">
@@ -89,10 +90,70 @@
              </select>
              </th>
            <tr>
-             <td><audio id="M_noisy_wav" controls=""><source id="M_noisy_wav_source" src="./src/M_p311_094_mic1/ref_noisy.wav" type="audio/wav"></audio></td>
-             <td><audio id="M_output_wav" controls=""><source id="M_output_wav_source" src="./src/M_p311_094_mic1/inspect1.wav" type="audio/wav"></audio></td>
-             <td><audio id="M_clean_wav" controls=""><source id="M_clean_wav_source" src="./src/M_p311_094_mic1/ref_clean.wav" type="audio/wav"></audio></td>
+             <td><audio id="M_noisy_wav" controls=""><source id="M_noisy_wav_source" src="./src/M_p311_094/ref_noisy.wav" type="audio/wav"></audio></td>
+             <td><audio id="M_output_wav" controls=""><source id="M_output_wav_source" src="./src/M_p311_094/inspect1.wav" type="audio/wav"></audio></td>
+             <td><audio id="M_clean_wav" controls=""><source id="M_clean_wav_source" src="./src/M_p311_094/ref_clean.wav" type="audio/wav"></audio></td>
            </tr>
+           </tbody>
+        </table>
+
+      <h2>Style Factor Control</h2>	
+      <p>By style factor modeling, STYLER achieved controllability of style factors from different sources (input variants).
+        In other words, input audio can vary for each of the style factors.
+        Here, we demonstrate model controllability on 'T', 'D', 'P', 'E', and 'S' from two different audio of different speakers.
+        In each dropbox, "1" refers to "Reference Audio 1" and "2" refers to "Reference Audio 2", and the corresponding style of selected reference audio is reflected on the output of STYLER.
+        All plots are left-aligned for easy comparison.
+      </p>
+         <table class="fixed">
+          <thead>
+          <tr>	
+            <th>Reference Audio 1 (Ground-truth)</th><th>STYLER</th><th>Reference Audio 2 (Ground-truth)</th>
+          </tr>	
+        </thead>	
+         <tbody>
+          <tr class="info"><td colspan="4"><span>Reference Audio 1: Unseen Female (p323_229), <i>"That period was a struggle."</i></span>
+          <br><span>Reference Audio 2: Seen Male (p259_284), <i>"It makes no difference to their friendship."</i></span>
+          </td>
+          </tr>
+           <tr>
+              <td calss="mel"><img id="cont_ref1_mel" src="./src/control_r1_F_p323_229_r2_M_p259_284/F_p323_229.png" alt="mel" width="300" height="200"/></td>			
+              <td calss="mel"><img id="cont_output_mel" src="./src/control_r1_F_p323_229_r2_M_p259_284/11111.png" alt="mel" width="300" height="200"/></td>		
+              <td calss="mel"><img id="cont_ref2_mel" src="./src/control_r1_F_p323_229_r2_M_p259_284/M_p259_284.png" alt="mel" width="300" height="200"/></td>		
+            </tr>	
+            <th><th/>
+             T: 
+             <select name="cars" id="select" onchange="selectRef(this.value)">
+               <option value="T1">1</option>
+               <option value="T2">2</option>
+             </select>
+             D: 
+             <select name="cars" id="select" onchange="selectRef(this.value)">
+               <option value="D1">1</option>
+               <option value="D2">2</option>
+             </select>
+             P: 
+             <select name="cars" id="select" onchange="selectRef(this.value)">
+               <option value="P1">1</option>
+               <option value="P2">2</option>
+             </select>
+             E: 
+             <select name="cars" id="select" onchange="selectRef(this.value)">
+               <option value="E1">1</option>
+               <option value="E2">2</option>
+             </select>
+             S: 
+             <select name="cars" id="select" onchange="selectRef(this.value)">
+               <option value="S1">1</option>
+               <option value="S2">2</option>
+             </select>
+             </th>
+             
+           <tr>
+             <td><audio id="cont_ref1_wav" controls=""><source id="cont_ref1_wav" src="./src/control_r1_F_p323_229_r2_M_p259_284/F_p323_229.wav" type="audio/wav"></audio></td>
+             <td><audio id="cont_output_wav" controls=""><source id="cont_output_wav" src="./src/control_r1_F_p323_229_r2_M_p259_284/11111.wav" type="audio/wav"></audio></td>
+             <td><audio id="cont_ref2_wav" controls=""><source id="cont_ref2_wav" src="./src/control_r1_F_p323_229_r2_M_p259_284/M_p259_284.wav" type="audio/wav"></audio></td>
+           </tr>
+
            </tbody>
         </table>
       
