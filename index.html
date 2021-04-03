@@ -19,14 +19,14 @@
       <p><b>Authors: </b>Keon Lee, Kyumin Park, Daeyoung Kim.</p>	
 
       <p><b>Abstract:</b>	
-        Previous works on neural text-to-speech (TTS) have been tackled on limited speed in training and inference time, robustness for difficult synthesis conditions, expressiveness, and controllability. 
-        Although several approaches resolve some limitations, none of them has resolved all weaknesses at once. 
-        In this paper, we propose STYLER, an expressive and controllable text-to-speech model with robust speech synthesis and high speed. 
-        Excluding autoregressive decoding and introducing a novel audio-text aligning method called Mel Calibrator leads speech synthesis more robust on long, unseen data. 
-        Disentangled style factor modeling under supervision enlarges the controllability of synthesizing speech with fruitful expressivity. 
-        Moreover, our novel noise modeling pipeline using domain adversarial training and Residual Decoding enables noise-robust style transfer, decomposing the noise without any additional label. 
-        Our extensive and various experiments demonstrate STYLER's effectiveness in the aspects of speed, robustness, expressiveness, and controllability by comparison with existing neural TTS models and ablation studies. 
-        Synthesis samples of our model and experiment results are provided via our demo page. 
+        Previous works on neural text-to-speech (TTS) have been addressed on limited speed in training and inference time, robustness for difficult synthesis conditions, expressiveness, and controllability. 
+        Although several approaches resolve some limitations, there has been no attempt to solve all weaknesses at once. 
+        In this paper, we propose STYLER, an expressive and controllable TTS framework with high-speed and robust synthesis. 
+        Our novel audio-text aligning method called Mel Calibrator and excluding autoregressive decoding enable rapid training and inference and robust synthesis on unseen data. 
+        Also, disentangled style factor modeling under supervision enlarges the controllability in synthesizing process leading to expressive TTS. 
+        On top of it, a novel noise modeling pipeline using domain adversarial training and Residual Decoding empowers noise-robust style transfer, decomposing the noise without any additional label. 
+        Various experiments demonstrate that STYLER is more effective in speed and robustness than expressive TTS with autoregressive decoding and more expressive and controllable than reading style non-autoregressive TTS. 
+        Synthesis samples and experiment results are provided via our <a href="https://keonlee9420.github.io/STYLER-Demo/" target="_blank">demo page</a>, and <a href="https://github.com/keonlee9420/STYLER" target="_blank">code</a> is available publicly.
         </p>	
       <h2>Style Factor Modeling</h2>	
       <p>Try various style factor combinations. The model output (middle) is synthesized speech from single noisy audio (left) with given text.
